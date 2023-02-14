@@ -1,13 +1,15 @@
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, render_template
 import random
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def root():
-    return "Миссия Колонизация Марса"
-
+@app.route('/index')
+def index():
+    user = "Ученик Яндекс.Лицея"
+    return render_template('index.html', title='Домашняя страница',
+                           username=user)
 
 @app.route('/promotion')
 def promotion():

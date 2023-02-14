@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if prof in ('инженер', 'строитель') %}
+        <h2>Инженерные тренажёры</h2>
+        <img src="https://vignette.wikia.nocookie.net/starwars/images/b/b1/YT-1000-MFOM.png/revision/latest?cb=20181215025251&path-prefix=ja" alt="Инженерные тренажёры">
+    {% else %}
+        <h2>Научные симуляторы</h2>
+        <img src="https://www.skeptik.net/conspir/app_pic/feodp217.gif" alt="Научные симуляторы">
+    {% endif %}
+
+{% endblock %}
+

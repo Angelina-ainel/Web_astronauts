@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% macro print_list() %}
+    {% for prof_title in prof %}
+            <li>{{ prof_title }}</li>
+    {% endfor %}
+{% endmacro %}
+{% block content %}
+<h2>Список профессий</h2>
+{% if list == 'ol' %}
+    <ol>{% macro print_list() %}</ol>
+{% elif list == 'ul' %}
+    <ul>{% macro print_list() %}</ul>
+{% endif %}
+{% endblock %}
