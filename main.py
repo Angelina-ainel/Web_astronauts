@@ -1,8 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
+from login_form import LoginForm
 # import random
 # import json
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 @app.route('/')
@@ -40,6 +42,20 @@ def auto_answer():
 
     }
     return render_template('auto_answer.html', **params)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    astronaut = form.username_astro
+    if form.validate_on_submit():
+        return redirect(f'/success/{astronaut.data}')
+    return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/success/<astronaut>')
+def success(astronaut):
+    return render_template('success.html', title='Доступ', username=astronaut)
 
 
 if __name__ == '__main__':
