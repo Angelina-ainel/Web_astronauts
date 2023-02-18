@@ -5,21 +5,16 @@ form.login_form {
     background-color: #ffcc00;
     border: 1px solid gray;
     border-radius: 5px;
-    padding: 10px;
+    padding: 170px;
 }
-
-h1 {
-   color: #d22e3a
-}
-
 
 h4 {
 color: #999999
 padding-left: 20px;
 }
 
+
 .image {
 background-image: url('https://yastatic.net/s3/lyceum/content/images/second-year/web/MARS-2-7.png')
 background_repeat: no-repeat;
-padding-left: 150px;
 }
