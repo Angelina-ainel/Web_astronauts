@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 align="center">Размещение по каютам</h2>
+<div class="container-sm">
+    <ul class="list-group list-group-flush">
+        {% for user in astronauts_list %}
+        <li class="list-group-item"> {{ user }} - Каюта № {{ loop.index }} {% if loop.first %} -
+            капитан корабля {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
+
