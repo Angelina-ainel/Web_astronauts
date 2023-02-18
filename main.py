@@ -1,10 +1,15 @@
 from flask import Flask, render_template, redirect
-from login_form import LoginForm
-# import random
-# import json
 
+from data.users import User
+from login_form import LoginForm
+from data import db_session
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+
+def main():
+    db_session.global_init('db/mars_explorer.db')
+    # app.run()
 
 
 @app.route('/')
@@ -65,4 +70,5 @@ def distribution():
 
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    # app.run(port=8080, host='127.0.0.1')
+    main()
