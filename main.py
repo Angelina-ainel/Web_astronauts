@@ -3,29 +3,18 @@ from data.jobs import Jobs
 from data.users import User
 from login_form import LoginForm
 from data import db_session
+import datetime
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 def main():
     db_session.global_init('db/mars_explorer.db')
-    data_list = [{'surname': 'Scott', 'name': 'Ridley', 'age': 21, 'position': 'captain',
-                  'speciality': 'research engineer', 'address': 'module_1', 'email': 'scott_chief2@mars.org',
-                  'hashed_password': 'cap'},
-                 {'surname': 'Gamgi', 'name': 'Sam', 'age': 38, 'position': 'assistant',
-                  'speciality': 'protecting', 'address': 'module_2', 'email': 'sam_gamg@shire.org',
-                  'hashed_password': 'sword'},
-                 {'surname': 'Gollum', 'name': 'Sméagol', 'age': 88, 'position': 'thief',
-                  'speciality': 'mordor guide', 'address': 'module_3', 'email': 'gollum_myprecious@midearth.org',
-                  'hashed_password': 'teeth'},
-                 {'surname': 'Baggins', 'name': 'Frodo', 'age': 50, 'position': 'main_hero',
-                  'speciality': 'the owner', 'address': 'module_4', 'email': 'frodo_bag@end.org',
-                  'hashed_password': 'blade'}]
     session = db_session.create_session()
-    for user_data in data_list:
-        print(user_data)
-        user = User(**user_data)
-        session.add(user)
+    job = Jobs(team_leader=1, job='deployment of residential modules 1 and 2', work_size=15, collaborators='2, 3',
+               is_finished=False)
+    session.add(job)
     session.commit()
 
     # app.run()
