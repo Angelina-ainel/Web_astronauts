@@ -10,25 +10,23 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 def main():
     db_session.global_init('db/mars_explorer.db')
     data_list = [{'surname': 'Scott', 'name': 'Ridley', 'age': 21, 'position': 'captain',
-                  'speciality': 'research engineer', 'address': 'module_1', 'email': 'scott_chief@mars.org',
+                  'speciality': 'research engineer', 'address': 'module_1', 'email': 'scott_chief2@mars.org',
                   'hashed_password': 'cap'},
-                 {'surname': 'Jonson', 'name': 'Angelina', 'age': 17, 'position': 'daughter',
-                  'speciality': 'dancer', 'address': 'module_2', 'email': 'angel_dance@mars.org',
+                 {'surname': 'Gamgi', 'name': 'Sam', 'age': 38, 'position': 'assistant',
+                  'speciality': 'protecting', 'address': 'module_2', 'email': 'sam_gamg@shire.org',
                   'hashed_password': 'sword'},
-                 {'surname': 'Kon', 'name': 'Lisa', 'age': 27, 'position': 'master',
-                  'speciality': 'beauty', 'address': 'module_3', 'email': 'lisa_con@mars.org',
-                  'hashed_password': 'cap'},
-                 {'surname': 'Baggins', 'name': 'Frodo', 'age': 21, 'position': 'main_hero',
-                  'speciality': 'the_owner', 'address': 'module_4', 'email': 'frodo_bag@mars.org',
-                  'hashed_password': 'cap'}]
+                 {'surname': 'Gollum', 'name': 'Sméagol', 'age': 88, 'position': 'thief',
+                  'speciality': 'mordor guide', 'address': 'module_3', 'email': 'gollum_myprecious@midearth.org',
+                  'hashed_password': 'teeth'},
+                 {'surname': 'Baggins', 'name': 'Frodo', 'age': 50, 'position': 'main_hero',
+                  'speciality': 'the owner', 'address': 'module_4', 'email': 'frodo_bag@end.org',
+                  'hashed_password': 'blade'}]
     session = db_session.create_session()
     for user_data in data_list:
+        print(user_data)
         user = User(**user_data)
         session.add(user)
     session.commit()
-
-
-
 
     # app.run()
 
