@@ -10,3 +10,4 @@ class LoginForm(FlaskForm):
     password_cap = PasswordField('Пароль капитана', validators=[DataRequired()])
     submit = SubmitField('Доступ')
 
+
