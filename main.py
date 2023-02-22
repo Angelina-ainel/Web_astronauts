@@ -12,15 +12,30 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 def main():
     db_session.global_init('db/mars_explorer.db')
     session = db_session.create_session()
-    job = Jobs(team_leader=1, job='deployment of residential modules 1 and 2', work_size=15, collaborators='2, 3',
-               is_finished=False)
-    session.add(job)
-    session.commit()
+    user = session.query(User).filter(User.id == 1).first()
 
+    print(user.name)
+    user.name = 'Valter'
+    user.modified_date = datetime.datetime.now()
+    session.commit()
+    print(user.name)
     # app.run()
 
 
 @app.route('/')
+@app.route('/job_journal')
+def job_journal():
+    db_session.global_init('db/mars_explorer.db')
+    session = db_session.create_session()
+    user = session.query(User).filter(User.id == 1).first()
+
+    print(user.name)
+    user.name = 'Valter'
+    user.modified_date = datetime.datetime.now()
+    session.commit()
+    print(user.name)
+
+
 @app.route('/index')
 def index():
     return render_template('index.html', title='Заготовка')
@@ -78,5 +93,5 @@ def distribution():
 
 
 if __name__ == '__main__':
-    # app.run(port=8080, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.1')
     main()
