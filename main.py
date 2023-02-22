@@ -17,7 +17,7 @@ login_manager.init_app(app)
 def main():
     db_session.global_init('db/mars_explorer.db')
     session = db_session.create_session()
-    user = User(name='test_user', email='testing@gmail.com')
+    user = User(name='test_user', email='testing3@gmail.com')
     user.set_password('ueo58nkk3')
     session.add(user)
     session.commit()
@@ -132,5 +132,6 @@ def distribution():
 
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
     main()
+    app.run(port=8080, host='127.0.0.1')
+
