@@ -1,43 +1,42 @@
 from flask import Flask, render_template, redirect, request, make_response, session
 from data.jobs import Jobs
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data.users import User
 from login_form import LoginForm
 from data import db_session
 from forms.users import LoginForm
+from forms.jobs import JobForm
 import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YANDEX_LYCEUM_KEY'
-app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
+# app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 
 def main():
     db_session.global_init('db/mars_explorer.db')
-    session = db_session.create_session()
-    user = User(name='test_user', email='testing3@gmail.com')
-    user.set_password('ueo58nkk3')
-    session.add(user)
-    session.commit()
-    # app.run()
+    # session = db_session.create_session()
+    # user = User(name='test_user', email='testing3@gmail.com')
+    # user.set_password('ueo58nkk3')
+    # session.add(user)
+    # session.commit()
+    app.run()
 
 
 @app.route('/')
-def root():
-    return render_template('base.html')
-
-
 @app.route('/job_journal')
 def job_journal():
     db_session.global_init('db/mars_explorer.db')
     session = db_session.create_session()
-    jobs = session.query(Jobs).filter(User.id == 1).first()
+    jobs = session.query(Jobs).all()
+    return render_template('journal.html', jobs=jobs)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    db_session.global_init('db/mars_explorer.db')
     form = LoginForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
@@ -56,6 +55,28 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route('/add_job', methods=["GET", "POST"])
+@login_required
+def add_job():
+    form = JobForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        job = Jobs()
+        # jobs.team_leader = form.team_leader.data
+        job.job = form.job.data
+        job.work_size = form.work_size.data
+        job.collaborators = form.collaborators.data
+        job.start_date = form.start_date.data
+        job.end_date = form.end_date.data
+        job.is_finished = form.is_finished.data
+        current_user.jobs.append(job)
+        db_sess.merge(current_user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('job_adding.html', title='Добавление работы',
+                           form=form)
 
 
 @login_manager.user_loader
@@ -133,5 +154,4 @@ def distribution():
 
 if __name__ == '__main__':
     main()
-    app.run(port=8080, host='127.0.0.1')
 
