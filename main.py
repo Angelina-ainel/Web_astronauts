@@ -25,7 +25,6 @@ def main():
     app.run(port=8080, host='127.0.0.1')
 
 
-@app.route('/')
 @app.route('/base_page')
 def base_page():
     return render_template('base.html', title='главная страница')
@@ -59,6 +58,7 @@ def register():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+@app.route('/')
 @app.route('/job_journal')
 def job_journal():
     session = db_session.create_session()
