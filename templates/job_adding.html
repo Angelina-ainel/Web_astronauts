@@ -41,13 +41,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.is_finished.label }}<br>
-            {{ form.is_finished(class="form-control") }}<br>
-            {% for error in form.is_finished.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
+            {{ form.is_finished() }} {{ form.is_finished.label }}
+<!--            {{ form.is_finished.label }}<br>-->
+<!--            {{ form.is_finished(class="form-control", type="checkbox") }}<br>-->
         </p>
         <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div>{{ message }}</div>
