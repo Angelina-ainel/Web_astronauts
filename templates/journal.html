@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Журнал работ</h1>
-{% if current_user.is_authenticated %}
-    <a href="news" class="btn btn-secondary">Добавить новость</a>
-{% endif %}
-{% for item in jobs %}
+<h2>Журнал работ</h2>
+{% for item in jobs%}
 <h3>Action # {{ item.id }}</h3>
 <table class="table">
     <thead>
-        <tr>
+        <tr class="table-active">
             <th scope="col">Title of activity</th>
             <th scope="col">Team leader</th>
             <th scope="col">Duration</th>
@@ -18,11 +15,10 @@
         </tr>
     </thead>
     <body>
-        <tr>
-          <!-- <th scope="row">1</th> -->
+        <tr class="table-primary">
           <td>{{ item.job }}</td>
-          <td>{{ item.team_leader }}</td>
-          <td>{{ item.work_size }}</td>
+          <td>{{ item.team_leader_relation }}</td>
+          <td>{{ item.work_size }} hours</td>
           <td>{{ item.collaborators }}</td>
           <td>{{ item.is_finished }}</td>
         </tr>

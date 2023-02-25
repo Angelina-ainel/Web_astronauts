@@ -25,6 +25,9 @@ class User(SqlAlchemyBase, UserMixin):
 
     jobs = orm.relationship('Jobs', back_populates='team_leader_relation')
 
+    def __repr__(self):
+        return f'{self.surname} {self.name}'
+
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
