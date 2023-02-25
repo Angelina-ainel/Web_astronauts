@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, make_response, session
+from flask import Flask, render_template, redirect, request, make_response, session, jsonify
 from data.jobs import Jobs
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data.users import User
@@ -6,6 +6,8 @@ from data.users import User
 from data import db_session
 from forms.users import LoginForm, RegisterForm
 from forms.jobs import JobForm
+from api.jobs_api import blueprint as jobs_blueprint
+
 import datetime
 
 app = Flask(__name__)
@@ -13,16 +15,6 @@ app.config['SECRET_KEY'] = 'YANDEX_LYCEUM_KEY'
 # app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-def main():
-    db_session.global_init('db/mars_explorer.db')
-    # session = db_session.create_session()
-    # user = User(name='Angelina', email='testAinel@gmail.com')
-    # user.set_password('Undomiel3241')
-    # session.add(user)
-    # session.commit()
-    app.run(port=8080, host='127.0.0.1')
 
 
 @app.route('/base_page')
@@ -156,6 +148,24 @@ def auto_answer():
 def distribution():
     names = ['Ридли Скотт', 'Энди Уир', 'Марк Уотни', 'Венката Капур', 'Тедди Сандерс', 'Шон Бин']
     return render_template('distribution.html', astronauts_list=names)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+def main():
+    db_session.global_init('db/mars_explorer.db')
+    # session = db_session.create_session()
+    # user = User(name='Gandalf', surname='Grey', email='Shadowfax@aman.com')
+    # user.set_password('SayFriend')
+    #
+    # session.add(user)
+    # session.commit()
+    app.register_blueprint(jobs_blueprint)
+    app.run(port=8080, host='127.0.0.1')
+
 
 
 if __name__ == '__main__':
