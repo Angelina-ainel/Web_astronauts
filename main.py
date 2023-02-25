@@ -25,20 +25,14 @@ def main():
 @app.route('/')
 @app.route('/job_journal')
 def job_journal():
-    db_session.global_init('db/mars_explorer.db')
     session = db_session.create_session()
-    user = session.query(User).filter(User.id == 1).first()
-
-    print(user.name)
-    user.name = 'Valter'
-    user.modified_date = datetime.datetime.now()
-    session.commit()
-    print(user.name)
+    jobs = session.query(Jobs).all()
+    return render_template('journal.html', jobs=jobs, title='works log')
 
 
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Заготовка')
+    return render_template('index.html')
 
 
 @app.route('/training/<prof>')
@@ -93,5 +87,6 @@ def distribution():
 
 
 if __name__ == '__main__':
+    db_session.global_init('db/mars_explorer.db')
     app.run(port=8080, host='127.0.0.1')
-    main()
+    # main()
