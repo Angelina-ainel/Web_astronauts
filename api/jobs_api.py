@@ -28,9 +28,11 @@ def get_jobs():
 def get_job(job_id):
     db_sess = db_session.create_session()
     job = db_sess.query(Jobs).get(job_id)
+    if not job:
+        return jsonify({"error": "Not Found"})
     return jsonify(
         {
-            'job': job.to_dict(only=('id', 'team_leader_relation.email', 'job', 'work_size', 'collaborators',
+            'job': job.to_dict(only=('id', 'job', 'work_size', 'collaborators',
                                      'start_date', 'end_date', 'is_finished', 'team_leader_relation.id',
                                      'team_leader_relation.email', 'team_leader_relation.name',
                                      'team_leader_relation.surname'))
@@ -42,7 +44,7 @@ def get_job(job_id):
 @blueprint.route('/api/jobs', methods=['POST'])
 def add_job():
     if not request.json:
-        return jsonify({'error': 'Empty request'})
+        return jsonify({"error": "Empty request"})
     elif not all(key in request.json for key in
                  ['team_leader', 'job', 'work_size']):
         return jsonify({'error': 'Bad request'})
@@ -50,8 +52,8 @@ def add_job():
     if request.json.get('id'):
         job = db_sess.query(Jobs).get(request.json.get('id'))
         if job:
-            return jsonify({'error': 'Id already exists'})
+            return jsonify({"error": "Id already exists"})
     job = Jobs(**request.json)
     db_sess.add(job)
     db_sess.commit()
-    return jsonify({'success': 'OK'})
+    return jsonify({"success": "OK"})
