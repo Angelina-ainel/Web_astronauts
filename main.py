@@ -7,14 +7,14 @@ from data import db_session
 from forms.users import LoginForm, RegisterForm
 from forms.jobs import JobForm
 from api.jobs_api import blueprint as jobs_blueprint
-
-import datetime
+from flask_restful import reqparse, abort, Api, Resource
+from api.users_resource import UsersResource, UsersListResource
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YANDEX_LYCEUM_KEY'
-# app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 login_manager = LoginManager()
 login_manager.init_app(app)
+api = Api(app)
 
 
 @app.route('/base_page')
@@ -163,9 +163,10 @@ def main():
     #
     # session.add(user)
     # session.commit()
+    api.add_resource(UsersResource, '/api/v2/news/<int:news_id>')
+    api.add_resource(UsersListResource, '/api/v2/news')
     app.register_blueprint(jobs_blueprint)
     app.run(port=8080, host='127.0.0.1')
-
 
 
 if __name__ == '__main__':
