@@ -1,6 +1,6 @@
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import abort, Resource
 from flask import jsonify
-from ..data import db_session
+from data import db_session
 from data.users import User
 from user_parser import parser
 
@@ -10,17 +10,16 @@ def get_or_abort_if_user_not_found(user_id):
     user = session.query(User).get(user_id)
     if not user:
         abort(404, message=f"User {user_id} not found")
-    return user
+    return session, user
 
 
 class UsersResource(Resource):
     def get(self, user_id):
-        user = get_or_abort_if_user_not_found(user_id)
+        session, user = get_or_abort_if_user_not_found(user_id)
         return jsonify({'user': user.to_dict(rules=('-jobs', ))})
 
-    def delete(self, news_id):
-        user = get_or_abort_if_user_not_found(news_id)
-        session = db_session.create_session()
+    def delete(self, user_id):
+        session, user = get_or_abort_if_user_not_found(user_id)
         session.delete(user)
         session.commit()
         return jsonify({"success": "OK"})
@@ -36,14 +35,18 @@ class UsersListResource(Resource):
     def post(self):
         args = parser.parse_args()
         session = db_session.create_session()
+        user = session.query(User).get(args.get('id'))
+        if user:
+            return jsonify({"error": "Id already exists"})
         user = User(id=args.get('id'),
-                    surname=args['surname'],
-                    name=args['name'],
-                    age=args['age'],
+                    surname=args.get('surname'),
+                    name=args.get('name'),
+                    age=args.get('age'),
                     position=args.get('position'),
-                    speciality=args['speciality'],
+                    speciality=args.get('speciality'),
                     address=args.get('address'),
-                    email=args['email'])
+                    email=args.get('email'))
         session.add(user)
         session.commit()
-        return jsonify({'success': 'OK'})
+
+        return jsonify({"success": "OK"})

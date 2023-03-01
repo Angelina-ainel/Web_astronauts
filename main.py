@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, make_response, session, jsonify
+from flask import Flask, render_template, redirect, make_response, jsonify
 from data.jobs import Jobs
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from data.users import User
@@ -6,9 +6,9 @@ from data.users import User
 from data import db_session
 from forms.users import LoginForm, RegisterForm
 from forms.jobs import JobForm
-from api.jobs_api import blueprint as jobs_blueprint
-from flask_restful import reqparse, abort, Api, Resource
-from api.users_resource import UsersResource, UsersListResource
+from jobs_api import blueprint as jobs_blueprint
+from flask_restful import Api
+from users_resource import UsersResource, UsersListResource
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YANDEX_LYCEUM_KEY'
@@ -158,13 +158,12 @@ def not_found(error):
 def main():
     db_session.global_init('db/mars_explorer.db')
     # session = db_session.create_session()
-    # user = User(name='Gandalf', surname='Grey', email='Shadowfax@aman.com')
-    # user.set_password('SayFriend')
-    #
+    # user = User(name='Frodo', surname='Baggins', age=50, email='mymission@mordor.com')
+    # user.set_password('TheOne1')
     # session.add(user)
     # session.commit()
-    api.add_resource(UsersResource, '/api/v2/news/<int:news_id>')
-    api.add_resource(UsersListResource, '/api/v2/news')
+    api.add_resource(UsersResource, '/api/v2/user/<int:user_id>')
+    api.add_resource(UsersListResource, '/api/v2/users')
     app.register_blueprint(jobs_blueprint)
     app.run(port=8080, host='127.0.0.1')
 
