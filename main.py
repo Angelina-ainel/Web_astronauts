@@ -9,9 +9,11 @@ from forms.jobs import JobForm
 from jobs_api import blueprint as jobs_blueprint
 from flask_restful import Api
 from users_resource import UsersResource, UsersListResource
+from jobs_resource import JobsResource, JobsListResource
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'YANDEX_LYCEUM_KEY'
+app.config['JSON_AS_ASCII'] = False
 login_manager = LoginManager()
 login_manager.init_app(app)
 api = Api(app)
@@ -164,6 +166,8 @@ def main():
     # session.commit()
     api.add_resource(UsersResource, '/api/v2/user/<int:user_id>')
     api.add_resource(UsersListResource, '/api/v2/users')
+    api.add_resource(JobsResource, '/api/v2/job/<int:job_id>')
+    api.add_resource(JobsListResource, '/api/v2/jobs')
     app.register_blueprint(jobs_blueprint)
     app.run(port=8080, host='127.0.0.1')
 
