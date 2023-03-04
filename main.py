@@ -157,11 +157,11 @@ def not_found(error):
 
 def main():
     db_session.global_init('db/mars_explorer.db')
-    session = db_session.create_session()
-    user = User(name='Sofiko', surname='Kalash', age=16, email='mymission@is.com')
-    user.set_password('Youwillmanage!')
-    session.add(user)
-    session.commit()
+    # session = db_session.create_session()
+    # user = User(name='Sofiko', surname='Kalash', age=16, email='mymission@is.com')
+    # user.set_password('Youwillmanage!')
+    # session.add(user)
+    # session.commit()
     api.add_resource(UsersResource, '/api/v2/user/<int:user_id>')
     api.add_resource(UsersListResource, '/api/v2/users')
     app.register_blueprint(jobs_blueprint)
